@@ -19,6 +19,10 @@ public class Epic extends Task{
 
 
     public void addSubTask(SubTask subTask){
+
         subTaskHashMap.put(subTask.getId(), subTask);
+    }
+    public void deleteSubTask(Long subTaskId){
+        subTaskHashMap.remove(subTaskId);
     }
 }

@@ -48,6 +48,8 @@ public class TaskManager {
     }
 
     public void createEpic(Epic epic) {
+        epic.setId(uniqueIdCounter);
+        uniqueIdCounter++;
         epicsMap.put(epic.getId(), epic);
     }
 
@@ -62,6 +64,28 @@ public class TaskManager {
     public List<SubTask> getAllSubTasks(){
         return new ArrayList<>(subtasksMap.values());
     }
+    public SubTask getSubTaskById(Long subTaskId) {
+        return subtasksMap.get(subTaskId);
+    }
+
+    public void createSubTask(SubTask subTask) {
+        subTask.setId(uniqueIdCounter);
+        uniqueIdCounter++;
+        epicsMap.get(subTask.getEpicId()).addSubTask(subTask);
+        subtasksMap.put(subTask.getId(), subTask);
+    }
+
+    public void updateSubTask(SubTask newSubTask) {
+        epicsMap.get(newSubTask.getEpicId()).addSubTask(newSubTask);
+        subtasksMap.put(newSubTask.getId(), newSubTask);
+    }
+
+    public void deleteSubTask(Long subTaskId) {
+        epicsMap.get(subtasksMap.get(subTaskId).getEpicId()).deleteSubTask(subTaskId);
+        subtasksMap.remove(subTaskId);
+    }
+
+
 
 
 
