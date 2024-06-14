@@ -5,9 +5,10 @@ import lombok.Setter;
 import org.project.tasks.Epic;
 import org.project.tasks.SubTask;
 import org.project.tasks.Task;
+import org.project.tasks.TaskStatus;
 
 import java.util.*;
-import java.util.concurrent.StructuredTaskScope;
+
 @Getter
 @Setter
 public class TaskManager {
@@ -39,6 +40,10 @@ public class TaskManager {
     public void deleteTaskById(Long taskId) {
         tasksMap.remove(taskId);
     }
+
+    public void deleteAllTasks(){
+        tasksMap.clear();;
+    }
     //Методы для Эпиков
     public List<Epic> getAllEpics(){
         return new ArrayList<>(epicsMap.values());
@@ -60,9 +65,37 @@ public class TaskManager {
     public void deleteEpicById(Long epicId) {
         epicsMap.remove(epicId);
     }
+
+    public void deleteAllEpics(){
+        epicsMap.clear();
+        subtasksMap.clear();
+    }
+    public void  changeEpicsStatus(Long epicId){
+
+        boolean allDone = epicsMap.get(epicId).getSubTasks().stream().allMatch(subtask -> subtask.getStatus() == TaskStatus.DONE);
+        boolean allNew = epicsMap.get(epicId).getSubTasks().stream().allMatch(subtask -> subtask.getStatus() == TaskStatus.NEW);
+        if ( epicsMap.get(epicId).getSubTasks().isEmpty() || allNew) {
+            epicsMap.get(epicId).setStatus(TaskStatus.NEW);
+        } else if (allDone) {
+            epicsMap.get(epicId).setStatus(TaskStatus.DONE);
+        } else {
+            epicsMap.get(epicId).setStatus(TaskStatus.IN_PROGRESS);;
+        }
+    }
+
     //Методы для Подзадач
     public List<SubTask> getAllSubTasks(){
         return new ArrayList<>(subtasksMap.values());
+    }
+
+    public List<SubTask> getAllSubTaskByEpicId(Long epicId){
+        ArrayList<SubTask> epicsTasks =  new ArrayList<>();
+        subtasksMap.values().forEach(subTask -> {
+            if (subTask.getEpicId().equals(epicId)){
+                epicsTasks.add(subTask);
+            }
+        });
+        return epicsTasks;
     }
     public SubTask getSubTaskById(Long subTaskId) {
         return subtasksMap.get(subTaskId);
@@ -80,10 +113,15 @@ public class TaskManager {
         subtasksMap.put(newSubTask.getId(), newSubTask);
     }
 
-    public void deleteSubTask(Long subTaskId) {
+    public void deleteSubTaskById(Long subTaskId) {
         epicsMap.get(subtasksMap.get(subTaskId).getEpicId()).deleteSubTask(subTaskId);
         subtasksMap.remove(subTaskId);
     }
+
+    public void deleteAllSubTasks(){
+        subtasksMap.clear();
+    }
+
 
 
 

@@ -4,25 +4,28 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 @Getter
 @Setter
 @AllArgsConstructor
 public class Epic extends Task{
 
-    private HashMap<Long, SubTask> subTaskHashMap;
+    private List<SubTask> subTasks;
 
     public Epic(long id, String name, String description, TaskStatus status) {
         super(id, name, description, status);
-        this.subTaskHashMap = new HashMap<>();
+        this.subTasks = new ArrayList<>();
     }
 
 
     public void addSubTask(SubTask subTask){
 
-        subTaskHashMap.put(subTask.getId(), subTask);
+        subTasks.add(subTask);
     }
     public void deleteSubTask(Long subTaskId){
-        subTaskHashMap.remove(subTaskId);
+        subTasks.removeIf(subTask -> Objects.equals(subTask.getId(), subTaskId));
     }
 }
