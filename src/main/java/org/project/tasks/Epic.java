@@ -28,4 +28,11 @@ public class Epic extends Task{
     public void deleteSubTask(Long subTaskId){
         subTasks.removeIf(subTask -> Objects.equals(subTask.getId(), subTaskId));
     }
+
+    @Override
+    public String toString() {
+        return "Epic{" +
+                "subTasks=" + subTasks +
+                '}';
+    }
 }

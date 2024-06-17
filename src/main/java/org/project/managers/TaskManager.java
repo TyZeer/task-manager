@@ -1,7 +1,6 @@
 package org.project.managers;
 
-import lombok.Getter;
-import lombok.Setter;
+
 import org.project.tasks.Epic;
 import org.project.tasks.SubTask;
 import org.project.tasks.Task;
@@ -9,8 +8,7 @@ import org.project.tasks.TaskStatus;
 
 import java.util.*;
 
-@Getter
-@Setter
+
 public class TaskManager {
 
     private Map<Long, Task> tasksMap = new HashMap<>();//Список Тасков
@@ -18,6 +16,39 @@ public class TaskManager {
     private Map<Long, SubTask> subtasksMap = new HashMap<>();//Список Подзадач
 
     private Long uniqueIdCounter = 1L;//Cчетчик для новых АЙДИ
+
+    public Map<Long, Task> getTasksMap() {
+        return tasksMap;
+    }
+
+    public void setTasksMap(Map<Long, Task> tasksMap) {
+        this.tasksMap = tasksMap;
+    }
+
+    public Map<Long, Epic> getEpicsMap() {
+        return epicsMap;
+    }
+
+    public void setEpicsMap(Map<Long, Epic> epicsMap) {
+        this.epicsMap = epicsMap;
+    }
+
+    public Map<Long, SubTask> getSubtasksMap() {
+        return subtasksMap;
+    }
+
+    public void setSubtasksMap(Map<Long, SubTask> subtasksMap) {
+        this.subtasksMap = subtasksMap;
+    }
+
+    public Long getUniqueIdCounter() {
+        return uniqueIdCounter;
+    }
+
+    public void setUniqueIdCounter(Long uniqueIdCounter) {
+        this.uniqueIdCounter = uniqueIdCounter;
+    }
+
     //Методы для Тасков
     public List<Task> getAllTasks(){
         return new ArrayList<>(tasksMap.values());
